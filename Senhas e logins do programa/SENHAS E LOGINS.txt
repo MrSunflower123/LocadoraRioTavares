@@ -23,3 +23,6 @@ SUPERVISOR
 LOGIN: SUPERVISOR
 SENHA: Super123
 TIPO: Supervisor
+
+
+(Experimente criar novos usuários para o sistema).
