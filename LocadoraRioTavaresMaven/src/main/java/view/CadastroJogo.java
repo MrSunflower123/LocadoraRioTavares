@@ -261,8 +261,21 @@ public class CadastroJogo extends javax.swing.JFrame {
         */ 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         try {
-            validarCampos();
-            cadastrarJogo();     
+            
+            // Pega os dados que devem ser verificados
+            String titulo = txtTitulo.getText();           
+            String genero = txtGenero.getText();            
+            String plataforma = txtPlataforma.getText();           
+            String lanca= txtLancamento.getText().trim();          
+            String desen = txtDesenvolvedora.getText();            
+            String copias = txtCopias.getText();
+            
+            // Verifica se os campos estão seguindos todas as regras antes de cadastrar
+            validarCampos(titulo, genero, plataforma, lanca, desen, copias );
+            
+            cadastrarJogo();  
+            
+            
         dispose();
         } catch(Exception e){
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -298,10 +311,15 @@ public class CadastroJogo extends javax.swing.JFrame {
         Jogo objJogo = new Jogo();
         
         String titulo = txtTitulo.getText();
+        
         String genero = txtGenero.getText();
+        
         String plataforma = txtPlataforma.getText();
+        
         int lancamento = Integer.parseInt(txtLancamento.getText());
+        
         String desenvolvedora = txtDesenvolvedora.getText();
+        
         int copias = Integer.parseInt(txtCopias.getText());
         
         
@@ -311,6 +329,7 @@ public class CadastroJogo extends javax.swing.JFrame {
         objJogo.setLancamento(lancamento);
         objJogo.setDesenvolvedora(desenvolvedora);
         objJogo.setCopias(copias);
+        
         
         JogoDAO jogoDAO = new JogoDAO();
         jogoDAO.inserir(objJogo);
@@ -330,13 +349,9 @@ public class CadastroJogo extends javax.swing.JFrame {
      * Valida se os campos não estão vazios e no formato correto
      * @throws java.lang.Exception
      */ 
-        protected void validarCampos() throws Exception {
-            String titulo = txtTitulo.getText();
-            String genero = txtGenero.getText();
-            String plataforma = txtPlataforma.getText();
-            String lancamentoTexto = txtLancamento.getText().trim();
-            String desenvolvedora = txtDesenvolvedora.getText();
-            String copiasTexto = txtCopias.getText();
+        public void validarCampos(String titulo, String genero, String plataforma,
+                                  String lancamento, String desenvolvedora, String copias)throws Exception {
+            
         
         
         //TITULO
@@ -367,17 +382,17 @@ public class CadastroJogo extends javax.swing.JFrame {
         
         //ANO DE LANÇAMENTO
         //Lancamento não pode estar vazio
-         if(lancamentoTexto.isEmpty()){
+         if(lancamento.isEmpty()){
            throw new Exception ("Ano de lançamento não pode ser vazio.");
         }
         
         //Lancamento deve ter exatamento 4 números
-        if (!lancamentoTexto.matches("^\\d{4}$")) {
+        if (!lancamento.matches("^\\d{4}$")) {
             throw new Exception("Ano de lançamento deve ter exatamente 4 números,EX: 2025");
         }
 
         // Converte para int
-        int lancamentoInt = Integer.parseInt(lancamentoTexto);
+        int lancamentoInt = Integer.parseInt(lancamento);
 
         // Verifica se é maior que zero
         if (lancamentoInt <= 0) {
@@ -394,17 +409,17 @@ public class CadastroJogo extends javax.swing.JFrame {
         
         //COPIAS
         // Copias não pode estar vazio
-        if(copiasTexto.isEmpty()){
+        if(copias.isEmpty()){
            throw new Exception ("Cópias não pode ser vazio.");
         }
         
         //Copias aceita somente  números
-        if(!copiasTexto.matches("^[0-9]+$")){
+        if(!copias.matches("^[0-9]+$")){
            throw new Exception ("Cópias deve conter somente números.");
         }
         
         // Converte para int
-        int copiasInt = Integer.parseInt(copiasTexto);
+        int copiasInt = Integer.parseInt(copias);
 
         // Verifica se é maior que zero
         if (copiasInt <= 0) {
@@ -444,4 +459,6 @@ public class CadastroJogo extends javax.swing.JFrame {
         btnVoltar.setMnemonic(KeyEvent.VK_V);
         
     }
+    
+    
 }
